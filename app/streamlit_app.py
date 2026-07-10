@@ -174,7 +174,7 @@ with tab1:
 
         else:
             st.info("👈 Fill in the customer profile and click **Predict Churn Risk**")
-        st.image("docs/shap_waterfall.png", caption="Example SHAP explanation", use_container_width=True)
+        st.image("docs/shap_waterfall.png", caption="Example SHAP explanation", use_column_width=True)
 # ══════════════════════════════════════════════════════════════════════════════
 # TAB 2 — Global Feature Importance
 # ══════════════════════════════════════════════════════════════════════════════
@@ -184,10 +184,10 @@ with tab2:
 
     col_bar, col_bee = st.columns(2)
     with col_bar:
-        st.image("docs/shap_summary_bar.png", caption="Mean |SHAP| bar chart", use_container_width=True)
+        st.image("docs/shap_summary_bar.png", caption="Mean |SHAP| bar chart", use_column_width=True)
     with col_bee:
-        st.image("docs/shap_beeswarm.png", caption="Beeswarm — direction of impact", use_container_width=True)
+        st.image("docs/shap_beeswarm.png", caption="Beeswarm — direction of impact", use_column_width=True)
 
     st.divider()
     st.subheader("ROC Curves — Model Comparison")
-    st.image("docs/roc_curves.png", use_container_width=False, width=600)
+    st.image("docs/roc_curves.png", width=600)
