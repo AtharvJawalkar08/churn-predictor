@@ -93,5 +93,5 @@ XGBoost was selected as the final model despite Logistic Regression's slightly h
 
 - **Revisit the model choice given the actual numbers.** Logistic Regression has the highest CV and test AUC here — I picked XGBoost mainly to showcase SHAP, which is a fair tradeoff for a portfolio project but worth being upfront about in an interview rather than implying XGBoost simply "won."
 - **Add a business-cost-weighted metric.** AUC treats false positives and false negatives symmetrically, but a missed churner (false negative) is more costly to a retention team than a wasted outreach (false positive). I'd add a cost-weighted threshold or precision/recall-at-k tuned to a realistic retention-campaign budget.
-- **Deploy the live app.** The README still has "_add Streamlit Cloud link here_" — actually hosting it removes friction for a recruiter clicking through.
+- **Deploy the live app.** The README still has "https://churn-predictor-n24yt6zun2hfxrqemyausj.streamlit.app/" — actually hosting it removes friction for a recruiter clicking through.
 - **Track drift over time.** This is trained once on a static Kaggle snapshot; a production version would need monitoring for feature drift as contract mixes, pricing, and customer behavior change.
