@@ -57,3 +57,41 @@ streamlit run app/streamlit_app.py
 ## Tech stack
 
 Python, pandas, scikit-learn, XGBoost, SHAP, Streamlit
+## Architecture
+
+```mermaid
+flowchart LR
+    Raw[telco_churn.csv] --> Prep[preprocessing.py]
+    Prep --> Clean[telco_churn_clean.csv]
+    Clean --> Split[Train/test split<br/>stratified]
+    Split --> Models[LR / RF / XGBoost<br/>modeling.py]
+    Models --> CV[5-fold stratified CV<br/>+ held-out test AUC]
+    CV --> Select[XGBoost selected]
+    Select --> Pipeline[(xgb_churn_pipeline.joblib)]
+    Pipeline --> SHAP[shap_explainer.joblib]
+    Pipeline --> App[Streamlit app]
+    SHAP --> App
+    App --> Score[Real-time risk score]
+    App --> Waterfall[SHAP waterfall<br/>per-prediction explanation]
+```
+
+## Key metrics
+
+| Model | CV AUC (mean ± std) | Test AUC |
+|---|---|---|
+| Logistic Regression | 0.8460 ± 0.0053 | 0.8361 |
+| Random Forest | 0.8316 ± 0.0061 | 0.8194 |
+| XGBoost | 0.8423 ± 0.0040 | 0.8275 |
+
+XGBoost was selected as the final model despite Logistic Regression's slightly higher AUC, for `scale_pos_weight`-based class handling and to demonstrate SHAP explainability on a non-linear model. `scale_pos_weight` was computed dynamically from the train split's actual class ratio (2.76) rather than hardcoded.
+
+**Key EDA finding:** churn rate is 42.7% for month-to-month contracts vs. 11.3% for one-year and 2.8% for two-year contracts — by far the strongest single driver in the dataset.
+
+*(Note: I should update the README's placeholder table with these real numbers pulled from `02_modeling.ipynb` and `01_eda.ipynb` — it currently says "_fill in_".)*
+
+## What I'd improve with more time
+
+- **Revisit the model choice given the actual numbers.** Logistic Regression has the highest CV and test AUC here — I picked XGBoost mainly to showcase SHAP, which is a fair tradeoff for a portfolio project but worth being upfront about in an interview rather than implying XGBoost simply "won."
+- **Add a business-cost-weighted metric.** AUC treats false positives and false negatives symmetrically, but a missed churner (false negative) is more costly to a retention team than a wasted outreach (false positive). I'd add a cost-weighted threshold or precision/recall-at-k tuned to a realistic retention-campaign budget.
+- **Deploy the live app.** The README still has "_add Streamlit Cloud link here_" — actually hosting it removes friction for a recruiter clicking through.
+- **Track drift over time.** This is trained once on a static Kaggle snapshot; a production version would need monitoring for feature drift as contract mixes, pricing, and customer behavior change.
