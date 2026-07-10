@@ -114,7 +114,7 @@ with tab1:
             "Bank transfer (automatic)", "Credit card (automatic)"
         ])
 
-        predict_btn = st.button("⚡ Predict Churn Risk", type="primary", use_container_width=True)
+        predict_btn = st.button("⚡ Predict Churn Risk", type="primary", use_column_width=True)
 
     # ── Results column ─────────────────────────────────────────────────────────
     with col_result:
@@ -185,9 +185,9 @@ with tab2:
 
     col_bar, col_bee = st.columns(2)
     with col_bar:
-        st.image("docs/shap_summary_bar.png", caption="Mean |SHAP| bar chart", use_container_width=True)
+        st.image("docs/shap_summary_bar.png", caption="Mean |SHAP| bar chart", use_column_width=True)
     with col_bee:
-        st.image("docs/shap_beeswarm.png", caption="Beeswarm — direction of impact", use_container_width=True)
+        st.image("docs/shap_beeswarm.png", caption="Beeswarm — direction of impact", use_column_width=True)
 
     st.divider()
     st.subheader("ROC Curves — Model Comparison")
