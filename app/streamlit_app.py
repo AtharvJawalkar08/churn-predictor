@@ -174,7 +174,7 @@ with tab1:
 
         else:
             st.info("👈 Fill in the customer profile and click **Predict Churn Risk**")
-        predict_btn = st.button("⚡ Predict Churn Risk", type="primary", use_container_width=True)
+        st.image("docs/shap_waterfall.png", caption="Example SHAP explanation", use_container_width=True)
 # ══════════════════════════════════════════════════════════════════════════════
 # TAB 2 — Global Feature Importance
 # ══════════════════════════════════════════════════════════════════════════════
