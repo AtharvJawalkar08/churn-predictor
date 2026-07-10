@@ -2,7 +2,7 @@
 
 Binary classifier predicting customer churn on the Telco Churn dataset, with SHAP explainability and a Streamlit app for real-time risk scoring.
 
-🔗 **Live app:** _add Streamlit Cloud link here_
+🔗 **Live app:** [churn-predictor-n24yt6zun2hfxrqemyausj.streamlit.app](https://churn-predictor-n24yt6zun2hfxrqemyausj.streamlit.app/)
 
 ![SHAP waterfall](docs/shap_waterfall.png)
 
@@ -28,7 +28,7 @@ Churn rate is 42.7% for month-to-month contracts vs. 11.3% for one-year and 2.8%
 
 ```
 churn-predictor/
-├── data/               # raw + cleaned data, saved model (gitignored)
+├── data/               # raw + cleaned data, saved model (tracked in repo)
 ├── notebooks/          # 01_eda.ipynb, 02_modeling.ipynb, 03_shap.ipynb
 ├── src/                # config.py, preprocessing.py, modeling.py
 ├── app/                # streamlit_app.py
@@ -80,5 +80,4 @@ flowchart LR
 
 - **Revisit the model choice given the actual numbers.** Logistic Regression has the highest CV and test AUC here — I picked XGBoost mainly to showcase SHAP, which is a fair tradeoff for a portfolio project but worth being upfront about in an interview rather than implying XGBoost simply "won."
 - **Add a business-cost-weighted metric.** AUC treats false positives and false negatives symmetrically, but a missed churner (false negative) is more costly to a retention team than a wasted outreach (false positive). I'd add a cost-weighted threshold or precision/recall-at-k tuned to a realistic retention-campaign budget.
-- **Deploy the live app.** The README still has "https://churn-predictor-n24yt6zun2hfxrqemyausj.streamlit.app/" — actually hosting it removes friction for a recruiter clicking through.
 - **Track drift over time.** This is trained once on a static Kaggle snapshot; a production version would need monitoring for feature drift as contract mixes, pricing, and customer behavior change.
