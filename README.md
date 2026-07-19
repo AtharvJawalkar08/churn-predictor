@@ -1,3 +1,5 @@
+![CI](https://github.com/AtharvJawalkar08/churn-predictor/actions/workflows/ci.yml/badge.svg)
+
 # Customer Churn Predictor
 
 Binary classifier predicting customer churn on the Telco Churn dataset, with SHAP explainability and a Streamlit app for real-time risk scoring.
@@ -81,3 +83,14 @@ flowchart LR
 - **Revisit the model choice given the actual numbers.** Logistic Regression has the highest CV and test AUC here — I picked XGBoost mainly to showcase SHAP, which is a fair tradeoff for a portfolio project but worth being upfront about in an interview rather than implying XGBoost simply "won."
 - **Add a business-cost-weighted metric.** AUC treats false positives and false negatives symmetrically, but a missed churner (false negative) is more costly to a retention team than a wasted outreach (false positive). I'd add a cost-weighted threshold or precision/recall-at-k tuned to a realistic retention-campaign budget.
 - **Track drift over time.** This is trained once on a static Kaggle snapshot; a production version would need monitoring for feature drift as contract mixes, pricing, and customer behavior change.
+
+
+## MLOps Pipeline
+
+This project includes a full MLOps layer on top of the core churn model:
+
+- **Containerization**: Dockerized with a multi-stage-ready Dockerfile; runs identically on any machine via `docker build` + `docker run`.
+- **Experiment Tracking**: MLflow logs parameters, metrics (CV AUC, test AUC), and model artifacts for every training run (`src/train.py`).
+- **CI/CD**: GitHub Actions automatically installs dependencies, runs the test suite, and builds the Docker image on every push (see badge above).
+- **Model Testing**: `tests/test_model.py` enforces a minimum AUC threshold, failing the build if model quality regresses.
+- **Data Drift Monitoring**: `src/drift_check.py` uses Evidently to compare reference vs. current data distributions and flag drift (`docs/drift_report.html`).
